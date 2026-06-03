@@ -593,6 +593,7 @@ export default function Dashboard() {
                 <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Welcome to My Company!</h2>
                 <p className="text-gray-600 mb-8 text-lg max-w-md mx-auto">You need to create a organization to access all features of the platform.</p>
                 <button
+                  type="button"
                   onClick={() => setShowForm(true)}
                   onMouseEnter={preloadAddressAutocomplete}
                   onFocus={preloadAddressAutocomplete}
@@ -609,7 +610,9 @@ export default function Dashboard() {
                     <p className="text-gray-600 mt-2">Set up your organization profile to get started</p>
                   </div>
                   <button
+                    type="button"
                     onClick={() => setShowForm(false)}
+                    aria-label="Close organization form"
                     className="text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

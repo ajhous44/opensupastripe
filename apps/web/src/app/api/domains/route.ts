@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getDomainInfo, setCustomDomain, removeCustomDomain, updateDomainVerification } from '@/app/actions/organization';
+import {
+  getDomainInfo,
+  removeCustomDomain,
+  setCustomDomain,
+  updateDomainVerification,
+} from '@/lib/repositories/organization';
 import { requireAuth, validateRequiredParams, normalizeDomain } from '@/lib/auth-helpers';
 import { z } from 'zod';
 

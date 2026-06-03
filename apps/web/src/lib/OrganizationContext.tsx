@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, startTransition } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo, startTransition } from 'react'
 import { createClient } from '@/lib/supabase-browser'
 
 // Import centralized types
@@ -197,17 +197,28 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
     await loadOrganizations()
   }, [loadOrganizations])
 
+  const contextValue = useMemo(() => ({
+    organizations,
+    currentOrganization,
+    currentOrganizationId,
+    userRole,
+    hasOrganization,
+    loading,
+    switchOrganization,
+    refreshOrganizations,
+  }), [
+    organizations,
+    currentOrganization,
+    currentOrganizationId,
+    userRole,
+    hasOrganization,
+    loading,
+    switchOrganization,
+    refreshOrganizations,
+  ])
+
   return (
-    <OrganizationContext.Provider value={{ 
-      organizations, 
-      currentOrganization, 
-      currentOrganizationId,
-      userRole,
-      hasOrganization, 
-      loading,
-      switchOrganization,
-      refreshOrganizations
-    }}>
+    <OrganizationContext.Provider value={contextValue}>
       {children}
     </OrganizationContext.Provider>
   )

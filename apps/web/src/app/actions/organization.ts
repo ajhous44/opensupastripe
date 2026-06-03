@@ -6,45 +6,6 @@ import { createValidatedAction } from '@/lib/validation/server-action-wrapper'
 import type { OrganizationInfo } from '@/types'
 
 /**
- * Get organization by owner ID
- */
-export async function getByOwner(userId: string) {
-  return organizationRepo.getByOwner(userId)
-}
-
-export async function getBySubdomain(subdomain: string) {
-  return organizationRepo.getBySubdomain(subdomain)
-}
-
-export async function getByCustomDomain(customDomain: string) {
-  return organizationRepo.getByCustomDomain(customDomain)
-}
-
-export async function getById(id: string) {
-  return organizationRepo.getById(id)
-}
-
-export async function update(id: string, updates: Partial<OrganizationInfo>) {
-  return organizationRepo.update(id, updates)
-}
-
-export async function getDomainInfo(organizationId: string, ownerId: string) {
-  return organizationRepo.getDomainInfo(organizationId, ownerId)
-}
-
-export async function setCustomDomain(organizationId: string, ownerId: string, domain: string) {
-  return organizationRepo.setCustomDomain(organizationId, ownerId, domain)
-}
-
-export async function removeCustomDomain(organizationId: string, ownerId: string) {
-  return organizationRepo.removeCustomDomain(organizationId, ownerId)
-}
-
-export async function updateDomainVerification(organizationId: string, ownerId: string, isVerified: boolean) {
-  return organizationRepo.updateDomainVerification(organizationId, ownerId, isVerified)
-}
-
-/**
  * Create a new organization
  */
 export const createOrganization = createValidatedAction(

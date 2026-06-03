@@ -39,15 +39,19 @@ function NavItem({
   const iconRef = useRef<HTMLDivElement>(null)
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 })
 
-  useEffect(() => {
-    if (sidebarCollapsed && showTooltip && iconRef.current) {
+  const handleTooltipEnter = () => {
+    if (sidebarCollapsed) {
+      setShowTooltip(true)
+    }
+
+    if (sidebarCollapsed && iconRef.current) {
       const rect = iconRef.current.getBoundingClientRect()
       setTooltipPosition({
         top: rect.top + rect.height / 2,
         left: rect.right + 8,
       })
     }
-  }, [showTooltip, sidebarCollapsed])
+  }
 
   return (
     <Link
@@ -62,11 +66,7 @@ function NavItem({
             ? 'border border-sky-400/35 bg-gradient-to-r from-sky-500/25 via-sky-400/12 to-blue-600/10 text-white shadow-lg backdrop-blur-md'
             : 'text-slate-300 hover:bg-white/5 hover:text-white hover:shadow-md'
       } ${sidebarCollapsed ? 'px-3 py-2.5 justify-center' : 'px-4 py-2.5'}`}
-      onMouseEnter={() => {
-        if (sidebarCollapsed) {
-          setShowTooltip(true)
-        }
-      }}
+      onMouseEnter={handleTooltipEnter}
       onMouseLeave={() => setShowTooltip(false)}
     >
       <div
@@ -293,9 +293,11 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile Sidebar Overlay */}
         {isMobileView ? (
           showMobileSidebar ? (
-            <div 
+            <button
+              type="button"
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
               onClick={() => setShowMobileSidebar(false)}
+              aria-label="Close sidebar"
             />
           ) : null
         ) : null}
@@ -373,8 +375,10 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
                 </div>
               </div>
             ) : null}
-            <button 
+            <button
+              type="button"
               onClick={toggleSidebar}
+              aria-label={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               className={`text-slate-400 hover:text-white hover:bg-white/10 p-2 rounded-lg transition-all duration-200 group ${isMobileView ? 'hidden' : ''}`}
             >
               {sidebarCollapsed ? (
@@ -388,8 +392,10 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
               )}
             </button>
             {isMobileView ? (
-              <button 
+              <button
+                type="button"
                 onClick={() => setShowMobileSidebar(false)}
+                aria-label="Close sidebar"
                 className="text-slate-400 hover:text-white hover:bg-slate-700/50 p-2 rounded-lg transition-all duration-200"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -476,13 +482,16 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
           </div>
           
           {/* User account section */}
-          <div className="mt-auto border-t border-slate-700/50 bg-gradient-to-r from-slate-800/30 to-slate-700/20 flex-shrink-0" ref={accountMenuRef}>
-            <div 
-              className={`p-4 cursor-pointer flex items-center transition-all duration-200 relative group ${
+          <div className="relative mt-auto flex-shrink-0 border-t border-slate-700/50 bg-gradient-to-r from-slate-800/30 to-slate-700/20" ref={accountMenuRef}>
+            <button
+              type="button"
+              className={`flex w-full cursor-pointer items-center p-4 text-left transition-all duration-200 group ${
                 accountMenuOpen ? 'bg-slate-700/50' : 'hover:bg-slate-700/30'
               }`}
               style={{ touchAction: 'manipulation' }}
               onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+              aria-expanded={accountMenuOpen}
+              aria-label="Account menu"
             >
               <div className="relative">
                 <UserAvatar size="sm" className="flex-shrink-0 ring-2 ring-slate-600/50" />
@@ -508,10 +517,11 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
                   </div>
                 </>
               ) : null}
+            </button>
               
-              {/* Account popup menu */}
-              {accountMenuOpen ? (
-                <div className="absolute bottom-full left-0 mb-2 w-72 bg-slate-800 rounded-xl shadow-2xl border border-slate-700/50 py-2 z-10 backdrop-blur-xl">
+            {/* Account popup menu */}
+            {accountMenuOpen ? (
+              <div className="absolute bottom-full left-0 z-10 mb-2 w-72 rounded-xl border border-slate-700/50 bg-slate-800 py-2 shadow-2xl backdrop-blur-xl">
                   <div className="px-4 py-3 border-b border-slate-700/50">
                     <div className="text-sm font-semibold text-white">Account Settings</div>
                     <div className="text-xs text-slate-400">Manage your profile and preferences</div>
@@ -534,7 +544,8 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
                   </div>
                   
                   <div className="py-2 border-t border-slate-700/50">
-                    <button 
+                    <button
+                      type="button"
                       onClick={() => {
                         setAccountMenuOpen(false)
                         handleSignOut()
@@ -550,9 +561,8 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
                       </div>
                     </button>
                   </div>
-                </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
         </div>
         
@@ -562,9 +572,11 @@ function InnerLayout({ children }: { children: React.ReactNode }) {
           {isMobileView ? (
             !showMobileSidebar ? (
               <button
+                type="button"
                 className="fixed top-4 left-4 z-50 bg-white p-3 rounded-md shadow-md"
                 style={{ touchAction: 'manipulation' }}
                 onClick={toggleMobileSidebar}
+                aria-label="Open sidebar"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />

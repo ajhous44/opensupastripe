@@ -7,6 +7,8 @@ export const metadata = {
   description: 'My Company Privacy Policy',
 }
 
+const LAST_UPDATED = 'June 2, 2026'
+
 export default function Privacy() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -15,7 +17,7 @@ export default function Privacy() {
         <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
           <h1 className="text-4xl font-bold text-gray-900">Privacy Policy</h1>
           <p className="mt-2 text-sm text-gray-500">
-            Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            Last updated: {LAST_UPDATED}
           </p>
 
           <div className="prose prose-indigo mt-10 max-w-none">

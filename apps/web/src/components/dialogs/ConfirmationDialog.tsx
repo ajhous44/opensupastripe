@@ -86,6 +86,7 @@ export default function ConfirmationDialog({
               Type "{requireConfirmText}" to confirm
             </label>
             <input
+              aria-label={`Type ${requireConfirmText} to confirm`}
               type="text"
               value={typed}
               onChange={(e) => setTyped(e.target.value)}

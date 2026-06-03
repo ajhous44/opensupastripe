@@ -94,7 +94,9 @@ export default function PWAInstallPrompt() {
             <h3 className="font-semibold text-gray-900">Install My Company</h3>
           </div>
           <button
+            type="button"
             onClick={handleDismiss}
+            aria-label="Dismiss install prompt"
             className="text-gray-400 hover:text-gray-600 transition-colors"
           >
             <X className="h-5 w-5" />
@@ -125,6 +127,7 @@ export default function PWAInstallPrompt() {
         </div>
         
         <button
+          type="button"
           onClick={handleDismiss}
           className="mt-4 w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
         >
@@ -144,7 +147,9 @@ export default function PWAInstallPrompt() {
             <h3 className="font-semibold text-gray-900">Install My Company</h3>
           </div>
           <button
+            type="button"
             onClick={handleDismiss}
+            aria-label="Dismiss install prompt"
             className="text-gray-400 hover:text-gray-600 transition-colors"
           >
             <X className="h-5 w-5" />
@@ -157,12 +162,14 @@ export default function PWAInstallPrompt() {
         
         <div className="flex space-x-2">
           <button
+            type="button"
             onClick={handleInstallClick}
             className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
           >
             Install
           </button>
           <button
+            type="button"
             onClick={handleDismiss}
             className="px-4 py-2 text-gray-600 text-sm font-medium hover:text-gray-700 transition-colors"
           >

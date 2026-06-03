@@ -2,30 +2,31 @@
 
 import { z } from 'zod'
 import { Resend } from 'resend'
+import { cookies } from 'next/headers'
 import { sanitizeInput } from '@/lib/form-security'
 import { SUPPORT_INFO_EMAIL } from '@/lib/email/resend-addresses'
 
-// Rate limiting for contact form submissions (in-memory)
-const submissionTimestamps = new Map<string, number[]>()
+const RATE_LIMIT_COOKIE = 'contact_form_submissions'
 const RATE_LIMIT_WINDOW_MS = 60 * 1000 // 1 minute
 const MAX_SUBMISSIONS_PER_MINUTE = 3 // Max 3 submissions per minute per email
 
-// Clean up old rate limit entries periodically
-setInterval(() => {
+async function checkRateLimit(): Promise<boolean> {
   const now = Date.now()
-  for (const [key, timestamps] of submissionTimestamps.entries()) {
-    const recentTimestamps = timestamps.filter(t => t > now - RATE_LIMIT_WINDOW_MS)
-    if (recentTimestamps.length === 0) {
-      submissionTimestamps.delete(key)
-    } else {
-      submissionTimestamps.set(key, recentTimestamps)
+  const cookieStore = await cookies()
+  const rawCookie = cookieStore.get(RATE_LIMIT_COOKIE)?.value
+  let timestamps: number[] = []
+
+  if (rawCookie) {
+    try {
+      const parsed = JSON.parse(rawCookie)
+      if (Array.isArray(parsed)) {
+        timestamps = parsed.filter((value): value is number => typeof value === 'number')
+      }
+    } catch {
+      timestamps = []
     }
   }
-}, 5 * 60 * 1000)
 
-function checkRateLimit(identifier: string): boolean {
-  const now = Date.now()
-  const timestamps = submissionTimestamps.get(identifier) || []
   const recentTimestamps = timestamps.filter(t => t > now - RATE_LIMIT_WINDOW_MS)
   
   if (recentTimestamps.length >= MAX_SUBMISSIONS_PER_MINUTE) {
@@ -33,7 +34,14 @@ function checkRateLimit(identifier: string): boolean {
   }
   
   recentTimestamps.push(now)
-  submissionTimestamps.set(identifier, recentTimestamps)
+  cookieStore.set(RATE_LIMIT_COOKIE, JSON.stringify(recentTimestamps), {
+    httpOnly: true,
+    maxAge: Math.ceil(RATE_LIMIT_WINDOW_MS / 1000),
+    path: '/',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  })
+
   return true
 }
 
@@ -59,6 +67,7 @@ function configuredContactRecipients(): string[] {
   return recipients.length > 0 ? recipients : [SUPPORT_INFO_EMAIL]
 }
 
+// oxlint-disable-next-line react-doctor/server-auth-actions -- Public marketing contact form; validation, honeypot, cookie rate limit, and sanitized email output intentionally allow anonymous submissions.
 export async function submitContactForm(input: ContactFormInput): Promise<{ success: boolean; error?: { code: string; message: string } }> {
   console.log('Contact form submission received:', {
     subject: input.subject,
@@ -92,8 +101,8 @@ export async function submitContactForm(input: ContactFormInput): Promise<{ succ
 
   const { email, phone, 'first-name': firstName, 'last-name': lastName, subject, message } = parsed.data
 
-  // Rate limiting by email
-  if (!checkRateLimit(email)) {
+  // Rate limiting by browser session
+  if (!(await checkRateLimit())) {
     return { success: false, error: { code: 'RATE_LIMIT', message: 'Too many submissions. Please try again in a minute.' } }
   }
 
@@ -200,4 +209,3 @@ This email was sent from the My Company contact form. You can reply directly to 
     return { success: false, error: { code: 'SERVER_ERROR', message: 'An unexpected error occurred. Please try again later.' } }
   }
 }
-

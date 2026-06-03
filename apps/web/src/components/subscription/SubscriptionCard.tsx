@@ -190,6 +190,7 @@ export default function SubscriptionCard({
             {/* Actions */}
             <div className="flex gap-3 pt-2">
               <button
+                type="button"
                 onClick={handleManageBilling}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors"
               >
@@ -246,6 +247,7 @@ export default function SubscriptionCard({
                     )}
                     
                     <button
+                      type="button"
                       onClick={() => handleUpgrade(plan.stripe_price_id)}
                       disabled={loading}
                       className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors"

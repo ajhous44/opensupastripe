@@ -149,6 +149,7 @@ export function LandingHero({ isSignedIn = false }: LandingHeroProps) {
             <div className="flex flex-col gap-2 sm:flex-row">
               <input
                 type="text"
+                aria-label="Email address"
                 value={auditUrl}
                 onChange={(event) => setAuditUrl(event.target.value)}
                 className="min-h-12 flex-1 rounded-xl border border-line bg-muted/40 px-4 text-base font-medium text-foreground outline-none transition placeholder:text-muted-foreground focus:border-blue-500 focus:bg-background"

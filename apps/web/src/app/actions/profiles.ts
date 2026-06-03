@@ -55,6 +55,30 @@ function handleSuccess<T>(data: T, _operation: string): RepositoryResponse<T> {
 export async function getByUserId(userId: string): Promise<RepositoryResponse<Profile>> {
   try {
     const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return {
+        data: null,
+        error: {
+          message: 'Authentication required',
+          code: 'UNAUTHORIZED',
+          operation: 'getByUserId',
+        },
+      }
+    }
+
+    if (user.id !== userId) {
+      return {
+        data: null,
+        error: {
+          message: 'You can only access your own profile',
+          code: 'FORBIDDEN',
+          operation: 'getByUserId',
+        },
+      }
+    }
+
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -77,6 +101,30 @@ export async function getByUserId(userId: string): Promise<RepositoryResponse<Pr
 export async function update(userId: string, updates: Partial<Profile>): Promise<RepositoryResponse<Profile>> {
   try {
     const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return {
+        data: null,
+        error: {
+          message: 'Authentication required',
+          code: 'UNAUTHORIZED',
+          operation: 'update',
+        },
+      }
+    }
+
+    if (user.id !== userId) {
+      return {
+        data: null,
+        error: {
+          message: 'You can only update your own profile',
+          code: 'FORBIDDEN',
+          operation: 'update',
+        },
+      }
+    }
+
     const { data, error } = await supabase
       .from('profiles')
       .update(updates)
@@ -99,10 +147,35 @@ export async function update(userId: string, updates: Partial<Profile>): Promise
  */
 export async function create(profile: Partial<Profile>): Promise<RepositoryResponse<Profile>> {
   try {
+    const requestedId = profile.id
     const supabase = await createClient()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return {
+        data: null,
+        error: {
+          message: 'Authentication required',
+          code: 'UNAUTHORIZED',
+          operation: 'create',
+        },
+      }
+    }
+
+    if (requestedId && requestedId !== user.id) {
+      return {
+        data: null,
+        error: {
+          message: 'You can only create your own profile',
+          code: 'FORBIDDEN',
+          operation: 'create',
+        },
+      }
+    }
+
     const { data, error } = await supabase
       .from('profiles')
-      .insert(profile)
+      .insert({ ...profile, id: user.id })
       .select()
       .single()
 

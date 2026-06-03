@@ -116,6 +116,7 @@ export function ToastContainer() {
             </div>
             
             <button
+              type="button"
               onClick={() => removeToast(toast.id)}
               className="flex-shrink-0 text-gray-400 hover:text-gray-500"
             >

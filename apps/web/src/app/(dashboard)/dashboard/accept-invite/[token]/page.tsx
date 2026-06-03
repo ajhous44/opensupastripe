@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase-server'
 import AcceptInviteClient from '@/components/team/AcceptInviteClient'
 
@@ -53,12 +54,12 @@ export default async function AcceptInvitePage({
           <p className="text-gray-600 mb-6">
             This invite link is invalid or has expired. Please contact the organization administrator for a new invite.
           </p>
-          <a
+          <Link
             href="/dashboard"
             className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Go to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -73,12 +74,12 @@ export default async function AcceptInvitePage({
           <p className="text-gray-600 mb-6">
             This invite has already been accepted. You may already be a team member.
           </p>
-          <a
+          <Link
             href="/dashboard"
             className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Go to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -93,12 +94,12 @@ export default async function AcceptInvitePage({
           <p className="text-gray-600 mb-6">
             This invite link is invalid. Please contact the organization administrator for a new invite.
           </p>
-          <a
+          <Link
             href="/dashboard"
             className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Go to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -113,12 +114,12 @@ export default async function AcceptInvitePage({
           <p className="text-gray-600 mb-6">
             This invite has expired. Please contact the organization administrator for a new invite.
           </p>
-          <a
+          <Link
             href="/dashboard"
             className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Go to Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -134,12 +135,12 @@ export default async function AcceptInvitePage({
             This invite was sent to <strong>{invite.email}</strong>, but you're logged in as <strong>{user.email}</strong>.
             Please log in with the correct email address.
           </p>
-          <a
+          <Link
             href="/auth/login"
             className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Log In
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -166,4 +167,3 @@ export default async function AcceptInvitePage({
     />
   )
 }
-

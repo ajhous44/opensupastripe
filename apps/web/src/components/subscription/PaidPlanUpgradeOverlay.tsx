@@ -17,10 +17,9 @@ export function PaidPlanUpgradeOverlay({
   upgradeHref = '/dashboard/manage-subscription',
 }: PaidPlanUpgradeOverlayProps) {
   return (
-    <div
-      className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-b from-white/90 via-sky-50/50 to-white/90 p-4 backdrop-blur-[2px] sm:p-6"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      open
+      className="absolute inset-0 z-10 m-0 flex h-auto max-h-none max-w-none items-center justify-center border-0 bg-gradient-to-b from-white/90 via-sky-50/50 to-white/90 p-4 backdrop-blur-[2px] sm:p-6"
       aria-labelledby="paid-plan-upgrade-title"
     >
       <div className={`${DASHBOARD_PANEL_SKY} max-w-sm p-6 text-center ring-1 ring-sky-300/20`}>
@@ -35,6 +34,6 @@ export function PaidPlanUpgradeOverlay({
           Upgrade now
         </Link>
       </div>
-    </div>
+    </dialog>
   )
 }

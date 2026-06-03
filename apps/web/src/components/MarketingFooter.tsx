@@ -169,7 +169,7 @@ export default function MarketingFooter() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
-            <p className="text-sm text-gray-600 dark:text-gray-300">&copy; {new Date().getFullYear()} My Company. All rights reserved.</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300" suppressHydrationWarning>&copy; {new Date().getFullYear()} My Company. All rights reserved.</p>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Open-source SaaS starter for teams building with Next.js, Supabase, and Stripe.
             </p>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { acceptInvite } from '@/app/actions/team'
 import { logger } from '@/lib/logger'
 
@@ -82,21 +83,21 @@ export default function AcceptInviteClient({ token, organizationName, role }: Ac
 
         <div className="space-y-3">
           <button
+            type="button"
             onClick={handleAccept}
             disabled={loading}
             className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
           >
             {loading ? 'Accepting...' : 'Accept Invitation'}
           </button>
-          <a
+          <Link
             href="/dashboard"
             className="block w-full text-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
           >
             Decline
-          </a>
+          </Link>
         </div>
       </div>
     </div>
   )
 }
-
