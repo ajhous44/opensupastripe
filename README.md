@@ -37,6 +37,17 @@ OpenSupaStripe is a generic foundation for SaaS products that need authenticatio
 | **Marketing** | Homepage, pricing, features, integrations, about, contact, privacy, terms |
 | **Dashboard** | Auth-protected shell with organization creation, team, billing, settings, profile |
 
+## Tech Stack
+
+| Area | Tools |
+| --- | --- |
+| **Framework** | Next.js 16 App Router, React 19, TypeScript |
+| **Styling** | Tailwind CSS 4, Radix UI, Heroicons, Lucide React |
+| **Data & auth** | Supabase Auth, PostgreSQL, Row Level Security, SSR cookies |
+| **Billing** | Stripe Checkout, Customer Portal, webhook-driven subscriptions |
+| **Deployment** | Vercel, custom domain route handlers, tenant subdomain routing |
+| **Quality** | TypeScript, ESLint, React Doctor (`npx react-doctor@latest`) |
+
 ## What's Not Included
 
 Product-specific modules are intentionally excluded. Add your own domain features on top of the tenant, auth, billing, and dashboard foundation.
@@ -228,7 +239,8 @@ Views:
 | `npm run start` | Start production server after build |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript |
-| `npm run check` | Type-check and lint |
+| `npm run react-doctor` | Run `npx react-doctor@latest` across the full workspace |
+| `npm run check` | Type-check, lint, and run React Doctor |
 | `npm run supabase:start` | Start local Supabase |
 | `npm run supabase:stop` | Stop local Supabase |
 | `npm run supabase:db:push` | Apply migrations |

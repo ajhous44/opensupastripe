@@ -679,7 +679,7 @@ export default function AboutPageClient() {
 
           <div className="border-t border-white/10 pt-8 text-sm text-gray-400">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p>&copy; {new Date().getFullYear()} My Company. All rights reserved.</p>
+              <p suppressHydrationWarning>&copy; {new Date().getFullYear()} My Company. All rights reserved.</p>
               <p className="mt-2 md:mt-0">Open-source SaaS starter for teams building with Next.js, Supabase, and Stripe.</p>
             </div>
           </div>

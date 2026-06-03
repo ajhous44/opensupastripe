@@ -38,11 +38,11 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 </span>
               </button>
             </h3>
-            <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!open}>
+            <section id={panelId} aria-labelledby={buttonId} hidden={!open}>
               {open ? (
                 <p className="pb-6 text-sm leading-relaxed text-muted-foreground">{item.answer}</p>
               ) : null}
-            </div>
+            </section>
           </div>
         )
       })}

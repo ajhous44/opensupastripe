@@ -23,7 +23,7 @@ export function MarketingHomeFooter() {
           <p className="mt-1 max-w-xs text-xs text-muted-foreground">
             Multitenant SaaS starter with Supabase, Stripe, and Vercel — auth, billing, and teams built in.
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">
+          <p className="mt-3 text-xs text-muted-foreground" suppressHydrationWarning>
             © {new Date().getFullYear()} My Company. All rights reserved.
           </p>
         </div>

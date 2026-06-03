@@ -81,6 +81,10 @@ export default function AddressAutocomplete({
       return
     }
 
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 5000)
+    let isActive = true
+
     const fetchSuggestions = async () => {
       if (debouncedValue.length < 3) {
         setSuggestions([])
@@ -89,9 +93,6 @@ export default function AddressAutocomplete({
 
       setLoading(true)
       try {
-        const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 5000)
-
         const response = await fetch(
           `https://photon.komoot.io/api/?q=${encodeURIComponent(debouncedValue)}&limit=5`,
           {
@@ -102,8 +103,6 @@ export default function AddressAutocomplete({
             },
           },
         )
-
-        clearTimeout(timeoutId)
 
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.status}`)
@@ -144,17 +143,33 @@ export default function AddressAutocomplete({
           }
         })
 
-        setSuggestions(formattedSuggestions)
-        setShowSuggestions(true)
+        if (isActive) {
+          setSuggestions(formattedSuggestions)
+          setShowSuggestions(true)
+        }
       } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') {
+          return
+        }
+
         console.error('Error fetching address suggestions:', error)
-        setSuggestions([])
+        if (isActive) {
+          setSuggestions([])
+        }
       } finally {
-        setLoading(false)
+        if (isActive) {
+          setLoading(false)
+        }
       }
     }
 
     fetchSuggestions()
+
+    return () => {
+      isActive = false
+      clearTimeout(timeoutId)
+      controller.abort()
+    }
   }, [debouncedValue, isUserTyping])
 
   useEffect(() => {
@@ -175,6 +190,7 @@ export default function AddressAutocomplete({
       <input
         type="text"
         name={name}
+        aria-label={placeholder}
         value={displayedValue}
         onChange={handleInputChange}
         onFocus={() => isUserTyping && inputValue.length >= 3 && setShowSuggestions(true)}
@@ -207,10 +223,14 @@ export default function AddressAutocomplete({
 
             return (
               <li
-                key={index}
-                onClick={() => handleSelectSuggestion(suggestion)}
-                className="cursor-pointer select-none relative py-3 pl-3 pr-9 hover:bg-indigo-50 border-b border-gray-100 last:border-b-0"
+                key={`${suggestion.formatted}-${index}`}
+                className="border-b border-gray-100 last:border-b-0"
               >
+                <button
+                  type="button"
+                  onClick={() => handleSelectSuggestion(suggestion)}
+                  className="relative w-full cursor-pointer select-none py-3 pl-3 pr-9 text-left hover:bg-indigo-50"
+                >
                 <div className="flex flex-col">
                   <div className="text-sm font-medium text-gray-900 truncate">
                     {streetAddress || 'Address'}
@@ -221,6 +241,7 @@ export default function AddressAutocomplete({
                     </div>
                   ) : null}
                 </div>
+                </button>
               </li>
             )
           })}

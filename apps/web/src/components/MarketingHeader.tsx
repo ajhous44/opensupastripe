@@ -345,7 +345,7 @@ export default function MarketingHeader({ initialUser }: { initialUser?: User | 
                 onMouseEnter={() => setToolsOpen(true)}
                 onMouseLeave={() => setToolsOpen(false)}
               >
-                <button className="flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">
+                <button type="button" className="flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">
                   Tools
                   <ChevronDown className={`w-4 h-4 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -377,6 +377,7 @@ export default function MarketingHeader({ initialUser }: { initialUser?: User | 
             <div className="relative z-20 flex min-w-0 items-center justify-end gap-4">
               {/* Theme Toggle */}
               <button
+                type="button"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus:outline-none"
                 aria-label="Toggle theme"
@@ -426,7 +427,7 @@ export default function MarketingHeader({ initialUser }: { initialUser?: User | 
                   >
                     <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg mx-1">Dashboard</Link>
                     <Link href="/dashboard/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg mx-1">Profile</Link>
-                    <button onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer rounded-lg mx-1">Sign Out</button>
+                    <button type="button" onClick={handleSignOut} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer rounded-lg mx-1">Sign Out</button>
                   </div>
                 </div>
               ) : (
@@ -457,6 +458,7 @@ export default function MarketingHeader({ initialUser }: { initialUser?: User | 
             {/* Mobile menu button */}
             <div className="ml-auto">
               <button
+                type="button"
                 className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 focus:outline-none transition-colors"
                 onClick={toggleMobileMenu}
                 aria-expanded={mobileMenuOpen}
@@ -581,6 +583,7 @@ export default function MarketingHeader({ initialUser }: { initialUser?: User | 
                   Profile
                 </Link>
                 <button
+                  type="button"
                   onClick={handleSignOut}
                   className="block w-full text-left px-3 py-2 rounded-xl text-base font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer transition-colors"
                 >

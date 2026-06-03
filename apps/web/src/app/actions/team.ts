@@ -34,11 +34,49 @@ const CancelInviteSchema = z.object({
   organizationId: z.string().uuid()
 })
 
+async function canManageOrganization(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  organizationId: string,
+  userId: string
+) {
+  const { data: organization } = await supabase
+    .from('organizations')
+    .select('owner_id')
+    .eq('id', organizationId)
+    .single()
+
+  if (!organization) {
+    return false
+  }
+
+  if (organization.owner_id === userId) {
+    return true
+  }
+
+  const { data: teamMember } = await supabase
+    .from('team_members')
+    .select('role')
+    .eq('organization_id', organizationId)
+    .eq('user_id', userId)
+    .single()
+
+  return teamMember?.role === 'admin'
+}
+
 /**
  * Check if organization can add team members (not free tier)
  */
 export async function checkCanAddTeamMember(organizationId: string) {
   const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) {
+    return { canAdd: false, error: { code: 'UNAUTHORIZED', message: 'Not authenticated' } }
+  }
+
+  const canManage = await canManageOrganization(supabase, organizationId, user.id)
+  if (!canManage) {
+    return { canAdd: false, error: { code: 'FORBIDDEN', message: 'Not authorized to manage team members' } }
+  }
   
   // Check subscription status
   const { data: subscription } = await supabase
@@ -52,6 +90,15 @@ export async function checkCanAddTeamMember(organizationId: string) {
  */
 export async function getTeamMemberCount(organizationId: string) {
   const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) {
+    return { count: 0, error: { code: 'UNAUTHORIZED', message: 'Not authenticated' } }
+  }
+
+  const canManage = await canManageOrganization(supabase, organizationId, user.id)
+  if (!canManage) {
+    return { count: 0, error: { code: 'FORBIDDEN', message: 'Not authorized to view team members' } }
+  }
   
   const { data: count } = await supabase
     .rpc('get_team_member_count', { p_organization_id: organizationId })
@@ -530,6 +577,15 @@ export async function updateTeamMemberRole(args: z.infer<typeof UpdateTeamMember
  */
 export async function getTeamMembers(organizationId: string) {
   const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) {
+    return { data: [], error: { code: 'UNAUTHORIZED', message: 'Not authenticated' } }
+  }
+
+  const canManage = await canManageOrganization(supabase, organizationId, user.id)
+  if (!canManage) {
+    return { data: [], error: { code: 'FORBIDDEN', message: 'Not authorized to view team members' } }
+  }
 
   const { data, error } = await supabase
     .rpc('get_organization_team_members', { p_organization_id: organizationId })
@@ -619,6 +675,15 @@ export async function getUserOrganizations() {
  */
 export async function getOrganizationInvites(organizationId: string) {
   const supabase = await createClient()
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  if (authError || !user) {
+    return { data: [], error: { code: 'UNAUTHORIZED', message: 'Not authenticated' } }
+  }
+
+  const canManage = await canManageOrganization(supabase, organizationId, user.id)
+  if (!canManage) {
+    return { data: [], error: { code: 'FORBIDDEN', message: 'Not authorized to view organization invites' } }
+  }
 
   const { data, error } = await supabase
     .from('organization_invites')
@@ -712,4 +777,3 @@ export async function cancelInvite(args: z.infer<typeof CancelInviteSchema>) {
 
   return { success: true }
 }
-

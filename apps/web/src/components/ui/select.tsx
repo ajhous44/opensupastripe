@@ -45,9 +45,15 @@ const SelectContext = React.createContext<{
 
 export function Select({ value, onValueChange, children, className }: SelectProps) {
   const [open, setOpen] = useState(false)
+  const contextValue = React.useMemo(() => ({
+    value,
+    onValueChange,
+    open,
+    setOpen,
+  }), [value, onValueChange, open])
 
   return (
-    <SelectContext.Provider value={{ value, onValueChange, open, setOpen }}>
+    <SelectContext.Provider value={contextValue}>
       <div className={cn("relative inline-block w-full", className)}>
         {children}
       </div>
@@ -128,9 +134,10 @@ export function SelectItem({ className, children, value: itemValue }: SelectItem
   const isSelected = value === itemValue
   
   return (
-    <div
+    <button
+      type="button"
       className={cn(
-        "relative flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-gray-100",
+        "relative flex w-full cursor-pointer select-none items-center px-3 py-2 text-left text-sm hover:bg-gray-100",
         isSelected && "bg-gray-100 font-medium",
         className
       )}
@@ -153,7 +160,7 @@ export function SelectItem({ className, children, value: itemValue }: SelectItem
         </span>
       )}
       <span className={cn("pl-6")}>{children}</span>
-    </div>
+    </button>
   )
 }
 

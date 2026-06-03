@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { AnimatedList } from "@/components/ui/animated-list"
 
 interface Item {
+  id: string
   name: string
   description: string
   icon: string
@@ -22,12 +23,13 @@ const events = [
 
 const times = ["2m ago", "5m ago", "8m ago", "12m ago", "15m ago", "20m ago"]
 
-let notifications = events.map((event, index) => ({
-  ...event,
-  time: times[index % times.length],
-}))
-
-notifications = Array.from({ length: 8 }, () => notifications).flat()
+const notifications = Array.from({ length: 8 }, (_, cycleIndex) =>
+  events.map((event, eventIndex) => ({
+    ...event,
+    id: `${cycleIndex}-${event.name}-${eventIndex}`,
+    time: times[eventIndex % times.length],
+  }))
+).flat()
 
 const Notification = ({ name, description, icon, color, time }: Item) => {
   return (
@@ -62,8 +64,8 @@ export default function AnimatedListDemo({ className }: { className?: string }) 
   return (
     <div className={cn("relative flex h-[500px] w-full flex-col overflow-hidden p-2", className)}>
       <AnimatedList>
-        {notifications.map((item, idx) => (
-          <Notification {...item} key={idx} />
+        {notifications.map((item) => (
+          <Notification key={item.id} {...item} />
         ))}
       </AnimatedList>
       <div className="from-background pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t" />

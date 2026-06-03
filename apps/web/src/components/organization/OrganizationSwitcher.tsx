@@ -108,6 +108,7 @@ export default function OrganizationSwitcher() {
     <div className="px-4 py-4 border-b border-[#2a2a2a] bg-transparent flex-shrink-0" ref={dropdownRef}>
       <div className="relative">
         <button
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="w-full flex items-center justify-between hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
         >
@@ -135,6 +136,7 @@ export default function OrganizationSwitcher() {
               const isCurrent = membership.organization.id === currentOrganization?.id
               return (
                 <button
+                  type="button"
                   key={membership.organization.id}
                   onClick={() => {
                     switchOrganization(membership.organization.id)

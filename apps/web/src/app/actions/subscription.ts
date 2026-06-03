@@ -95,32 +95,6 @@ export async function getUserSubscriptions() {
 }
 
 /**
- * Get subscription events for debugging (admin only)
- */
-export async function getSubscriptionEvents(subscriptionId?: string, limit: number = 50) {
-  const supabase = await createClient()
-  
-  let query = supabase
-    .from('subscription_events')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(limit)
-  
-  if (subscriptionId) {
-    query = query.eq('stripe_subscription_id', subscriptionId)
-  }
-  
-  const { data, error } = await query
-  
-  if (error) {
-    console.error('Error fetching subscription events:', error)
-    return { data: null, error: error.message }
-  }
-  
-  return { data, error: null }
-}
-
-/**
  * Create a Stripe customer portal session for organization billing management
  */
 export async function createBillingPortalSession(organizationId: string) {
@@ -235,51 +209,3 @@ export async function checkOrganizationAccess(organizationId: string) {
   // Staff members have access regardless of subscription
   return { hasAccess: true, role: userRole }
 }
-
-/**
- * Get subscription statistics for admin dashboard
- */
-export async function getSubscriptionStats() {
-  const supabase = await createClient()
-  
-  // Total subscriptions by status
-  const { data: statusStats, error: statusError } = await supabase
-    .from('subscriptions')
-    .select('status')
-  
-  if (statusError) {
-    console.error('Error fetching subscription stats:', statusError)
-    return { data: null, error: statusError.message }
-  }
-  
-  // Monthly recurring revenue (active subscriptions only)
-  const { data: mrrData, error: mrrError } = await supabase
-    .from('subscriptions')
-    .select('price_cents, currency')
-    .eq('status', 'active')
-  
-  if (mrrError) {
-    console.error('Error fetching MRR data:', mrrError)
-    return { data: null, error: mrrError.message }
-  }
-  
-  // Calculate stats
-  const statusCounts = statusStats.reduce((acc: Record<string, number>, sub: { status: string }) => {
-    acc[sub.status] = (acc[sub.status] || 0) + 1
-    return acc
-  }, {} as Record<string, number>)
-  
-  const totalMrr = mrrData.reduce((sum: number, sub: { price_cents: number }) => sum + sub.price_cents, 0)
-  
-  return {
-    data: {
-      totalSubscriptions: statusStats.length,
-      activeSubscriptions: statusCounts.active || 0,
-      trialSubscriptions: statusCounts.on_trial || 0,
-      cancelledSubscriptions: statusCounts.cancelled || 0,
-      monthlyRecurringRevenue: totalMrr,
-      statusBreakdown: statusCounts
-    },
-    error: null
-  }
-} 

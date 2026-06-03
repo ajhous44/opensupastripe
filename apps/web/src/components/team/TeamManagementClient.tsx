@@ -1,6 +1,7 @@
 'use client'
 
 import { Activity, useState } from 'react'
+import Link from 'next/link'
 import { getTeamMembers, removeTeamMember, updateTeamMemberRole, getOrganizationInvites, cancelInvite } from '@/app/actions/team'
 import InviteTeamMember from './InviteTeamMember'
 import ConfirmationDialog from '@/components/dialogs/ConfirmationDialog'
@@ -147,18 +148,17 @@ export default function TeamManagementClient({
                   {showInviteForm ? 'Cancel' : 'Invite team member'}
                 </button>
               ) : (
-                <div
+                <output
                   className="max-w-md rounded-xl border border-amber-200/80 bg-amber-50/90 px-4 py-3 text-sm leading-snug text-amber-950 shadow-sm"
-                  role="status"
                 >
                   Free tier cannot add team members.{' '}
-                  <a
+                  <Link
                     href="/dashboard/manage-subscription"
                     className="font-medium text-amber-900 underline decoration-amber-400/60 underline-offset-2 hover:text-amber-950"
                   >
                     Upgrade to add team members
-                  </a>
-                </div>
+                  </Link>
+                </output>
               )}
             </div>
           </div>
@@ -316,4 +316,3 @@ export default function TeamManagementClient({
     </div>
   )
 }
-
