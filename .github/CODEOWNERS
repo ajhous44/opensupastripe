@@ -1,0 +1,10 @@
+# Code owners for OpenSupaStripe
+#
+# The owner listed here is automatically requested for review on every pull
+# request. Combined with branch protection ("Require a pull request before
+# merging" + "Require review from Code Owners"), this enforces owner review
+# before any merge to the default branch.
+#
+# NOTE: Replace @ajhous44 below if your GitHub username differs.
+
+* @ajhous44

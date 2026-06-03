@@ -238,6 +238,43 @@ Views:
 
 This repo includes `CLAUDE.md` and `AGENTS.md` with setup notes for AI coding agents, MCP server recommendations, local commands, and instructions to fetch current Supabase, Stripe, Vercel, and Next.js docs before changing integrations.
 
+## Contributing
+
+Contributions are welcome. This project uses a **review-gated pull request workflow** —
+every change is merged only after review and approval by the repository owner. Direct
+pushes to the default branch are not accepted.
+
+### Workflow
+
+1. **Fork** the repository and create a feature branch from the default branch:
+   ```bash
+   git checkout -b feat/short-description
+   ```
+2. Make your changes, keeping the starter **generic and reusable** (no product-specific
+   or domain logic — see `AGENTS.md`).
+3. Run the checks locally before pushing:
+   ```bash
+   npm run check     # type-check + lint
+   npm run build
+   ```
+4. Open a **pull request** against the default branch with a clear description of the
+   change and its motivation.
+5. A maintainer will review your PR. **All pull requests require an approving review from
+   the repository owner before they can be merged.** Address review feedback by pushing
+   additional commits to the same branch.
+
+### Guidelines
+
+- Keep PRs focused and reasonably small; split unrelated changes.
+- Don't commit secrets — `.env.local`, real keys, DSNs, or tokens.
+- Don't reintroduce hardcoded private URLs, organization names, or account-specific IDs.
+- Update docs (`README.md`, `AGENTS.md`, `CLAUDE.md`) when setup or behavior changes.
+- Follow current Supabase, Stripe, Vercel, and Next.js docs for integration changes.
+
+> **Maintainers:** enable branch protection on the default branch with **"Require a pull
+> request before merging"** and **"Require review from Code Owners"** (or require an
+> approval from the repository owner) so this policy is enforced automatically.
+
 ## License
 
 MIT — use freely for commercial and open-source projects.
