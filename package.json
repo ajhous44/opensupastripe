@@ -1,0 +1,25 @@
+{
+  "name": "opensupastripe",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production-ready multitenant SaaS starter with Supabase, Stripe, and Vercel",
+  "scripts": {
+    "dev": "npm --workspace apps/web run dev",
+    "build": "npm --workspace apps/web run build",
+    "start": "npm --workspace apps/web run start",
+    "lint": "npm --workspace apps/web run lint",
+    "type-check": "npm --workspace apps/web run type-check",
+    "check": "npm --workspace apps/web run check",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:db:push": "supabase db push",
+    "db:types": "npm --workspace apps/web run db:types"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "supabase": "^2.53.6",
+    "typescript": "^5"
+  }
+}

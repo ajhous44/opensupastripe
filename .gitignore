@@ -1,0 +1,14 @@
+node_modules/
+.next/
+
+# Environment files. Keep examples tracked.
+.env*
+!.env.example
+!**/.env.example
+.env.sentry-build-plugin
+
+*.log
+.DS_Store
+.vercel
+dist/
+coverage/

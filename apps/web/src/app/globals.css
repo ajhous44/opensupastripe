@@ -1,0 +1,360 @@
+/* apps/web/src/app/globals.css */
+
+/* Import Tailwind - This pulls in base styles, components, and utilities. */
+/* Base styles will apply the theme's default font (font-sans, now Barlow Semi Condensed). */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Configure dark mode to use the .dark class */
+@variant dark (&:where(.dark, .dark *));
+
+/* Starter brand colors - blue, violet, cyan */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #525252;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(0, 0, 0, 0.12);
+  --ring: #2563eb;
+  --line: rgba(0, 0, 0, 0.06);
+  --line-strong: rgba(0, 0, 0, 0.12);
+  
+  /* Starter brand colors */
+  --starter-blue: #1d4ed8;
+  --starter-blue-light: #3b82f6;
+  --starter-purple: #7c3aed;
+  --starter-purple-light: #8b5cf6;
+  --starter-turquoise: #06b6d4;
+  --starter-turquoise-light: #22d3ee;
+  
+  /* Gradient combinations */
+  --gradient-primary: linear-gradient(135deg, var(--starter-blue), var(--starter-purple));
+  --gradient-secondary: linear-gradient(135deg, var(--starter-turquoise), var(--starter-blue));
+  --gradient-accent: linear-gradient(135deg, var(--starter-purple), var(--starter-turquoise));
+  
+  /* Safe area insets for iOS devices */
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+/* Use .dark class for dark mode variables instead of media query */
+:root:where(.dark) {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #111113;
+  --card-foreground: #ededed;
+  --popover: #111113;
+  --popover-foreground: #ededed;
+  --primary: #ededed;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1f1f22;
+  --secondary-foreground: #ededed;
+  --muted: #1f1f22;
+  --muted-foreground: #a3a3a3;
+  --accent: #1f1f22;
+  --accent-foreground: #ededed;
+  --destructive: #f87171;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #60a5fa;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+}
+
+/* Apply fonts to primary elements */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Safe area padding applied conditionally for touch devices below */
+}
+
+/* Basic layout — use clip (not hidden) so descendants can use position: sticky; hidden creates a scrollport that breaks sticky */
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+  position: relative;
+  width: 100%;
+}
+
+/* Restore pointer cursor to interactive elements */
+button, 
+[role="button"], 
+a, 
+input[type="submit"], 
+input[type="button"], 
+input[type="reset"], 
+select,
+summary,
+.cursor-pointer {
+  cursor: pointer;
+  /* Improve touch behavior on mobile devices */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix for mobile hover states - ensure they don't stick */
+@media (hover: none) {
+  /* Apply safe area only on touch devices to avoid stray bottom bar on desktop */
+  body {
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+  /*
+    For Tailwind CSS, this targets common hover utility classes.
+    It resets their hover effects to inherit, effectively disabling them on touch devices.
+    This helps prevent the first tap from being "consumed" by a hover effect.
+  */
+  .hover\:bg-slate-50:hover,
+  .hover\:bg-slate-100:hover,
+  .hover\:bg-slate-200:hover,
+  .hover\:bg-gray-50:hover,
+  .hover\:bg-gray-100:hover,
+  .hover\:text-slate-900:hover,
+  .hover\:text-slate-600:hover,
+  .hover\:text-gray-700:hover,
+  .hover\:border-gray-300:hover,
+  /* Add any other very common specific hover utilities your project uses if needed */
+  [class*="hover\:"]:hover { /* General catch-all for other hover utilities */
+    /* Reset potentially problematic styles to their non-hover state */
+    background-color: inherit !important;
+    color: inherit !important;
+    border-color: inherit !important;
+    opacity: inherit !important;
+    transform: inherit !important;
+    box-shadow: inherit !important; /* Common style affected by hover */
+    text-decoration: inherit !important; /* Links often change this */
+    /* Add other CSS properties that your hover styles might change */
+  }
+
+  /* 
+    Provide visual feedback on :active state for touch devices,
+    as :hover is unreliable or problematic for triggering actions.
+  */
+  a:active,
+  button:active,
+  [role="button"]:active {
+    opacity: 0.8; /* Example active state feedback - adjust as needed */
+  }
+  
+  a:hover, button:hover, [role="button"]:hover {
+    /* Reset any hover styles that might stick */
+    /* This overrides any hover styles except explicit responsive ones */
+    transition: none !important;
+  }
+}
+
+/* Apply Barlow Semi Condensed font to all headings with fallbacks */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* Apply Barlow Semi Condensed font to paragraphs, lists, and other elements with fallbacks */
+p, span, a, button, input, textarea, select, li, td, th, div {
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Utility classes for explicit font applications with fallbacks */
+.font-heading {
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif !important;
+}
+
+.font-body {
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+
+/* Starter brand utility classes */
+.bg-gradient-starter {
+  background: var(--gradient-primary);
+}
+
+.bg-gradient-starter-secondary {
+  background: var(--gradient-secondary);
+}
+
+.bg-gradient-starter-accent {
+  background: var(--gradient-accent);
+}
+
+.text-starter-blue {
+  color: var(--starter-blue);
+}
+
+.text-starter-purple {
+  color: var(--starter-purple);
+}
+
+.text-starter-turquoise {
+  color: var(--starter-turquoise);
+}
+
+.border-starter-blue {
+  border-color: var(--starter-blue);
+}
+
+.bg-starter-blue {
+  background-color: var(--starter-blue);
+}
+
+.bg-starter-purple {
+  background-color: var(--starter-purple);
+}
+
+.bg-starter-turquoise {
+  background-color: var(--starter-turquoise);
+}
+
+/* Toast animation */
+@keyframes enter {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.animate-enter {
+  animation: enter 0.3s ease-out;
+}
+
+/* Animated Gradient Text */
+@keyframes gradient {
+  to {
+    background-position: var(--bg-size, 300%) 0;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 8s linear infinite;
+}
+
+/* Marquee animations */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+/* --- End of file --- */
+
+/* Marketing homepage (Markio-style layout) — aurora + labels */
+html {
+  scroll-behavior: smooth;
+}
+
+.section-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.brand-font {
+  font-family: var(--font-barlow-semi-condensed), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes hero-supastripe-aurora {
+  0%,
+  100% {
+    transform: translate3d(-6%, -3%, 0) scale(1.05) rotate(-2deg);
+  }
+  33% {
+    transform: translate3d(5%, 4%, 0) scale(1.1) rotate(1.5deg);
+  }
+  66% {
+    transform: translate3d(3%, 8%, 0) scale(1.06) rotate(2.5deg);
+  }
+}
+
+@keyframes hero-supastripe-aurora-slow {
+  0%,
+  100% {
+    transform: translate3d(4%, 2%, 0) scale(1.08) rotate(2deg);
+  }
+  50% {
+    transform: translate3d(-5%, -4%, 0) scale(1.12) rotate(-2deg);
+  }
+}
+
+.hero-supastripe-aurora {
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(59, 130, 246, 0.45) 0%,
+    rgba(124, 58, 237, 0.42) 10%,
+    rgba(6, 182, 212, 0.38) 20%,
+    rgba(99, 102, 241, 0.4) 30%,
+    rgba(59, 130, 246, 0.42) 40%
+  );
+  background-size: 320% 220%;
+  background-position: 40% 30%;
+  will-change: transform;
+  animation: hero-supastripe-aurora 22s ease-in-out infinite;
+}
+
+.hero-supastripe-aurora-delayed {
+  background-image: repeating-linear-gradient(
+    85deg,
+    rgba(6, 182, 212, 0.35) 0%,
+    rgba(124, 58, 237, 0.38) 18%,
+    rgba(59, 130, 246, 0.36) 36%,
+    rgba(139, 92, 246, 0.34) 54%
+  );
+  background-size: 280% 200%;
+  background-position: 60% 50%;
+  will-change: transform;
+  animation: hero-supastripe-aurora-slow 28s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-supastripe-aurora,
+  .hero-supastripe-aurora-delayed {
+    animation: none;
+  }
+}
+
