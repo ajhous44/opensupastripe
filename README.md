@@ -2,6 +2,16 @@
 
 Production-ready **multitenant SaaS starter** built with Next.js, Supabase, Stripe, and Vercel.
 
+<p align="center">
+  <a href="https://nextjs.org" title="Next.js"><img src="docs/assets/logos/nextjs.svg" alt="Next.js" height="40" /></a>
+  &nbsp;&nbsp;
+  <a href="https://supabase.com" title="Supabase"><img src="docs/assets/logos/supabase.svg" alt="Supabase" height="40" /></a>
+  &nbsp;&nbsp;
+  <a href="https://stripe.com" title="Stripe"><img src="docs/assets/logos/stripe.svg" alt="Stripe" height="40" /></a>
+  &nbsp;&nbsp;
+  <a href="https://vercel.com" title="Vercel"><img src="docs/assets/logos/vercel.svg" alt="Vercel" height="40" /></a>
+</p>
+
 OpenSupaStripe is a generic foundation for SaaS products that need authentication, organizations, team invites, subscriptions, dashboard routes, subdomain routing, and marketing pages without product-specific business logic.
 
 ## What's Included
