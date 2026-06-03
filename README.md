@@ -12,6 +12,18 @@ Production-ready **multitenant SaaS starter** built with Next.js, Supabase, Stri
   <a href="https://vercel.com" title="Vercel"><img src="docs/assets/logos/vercel.svg" alt="Vercel" height="40" /></a>
 </p>
 
+## Overview
+
+<p align="center">
+  <a href="docs/assets/opensupastripe-features.mp4" title="Watch the feature overview">
+    <img src="docs/assets/opensupastripe-features-poster.png" alt="OpenSupaStripe feature overview" width="720" />
+  </a>
+</p>
+
+<p align="center"><em><a href="docs/assets/opensupastripe-features.mp4">▶ Watch the 24s feature overview</a></em></p>
+
+<p align="center"><sub>Music: "Inspired" by <a href="https://incompetech.com/">Kevin MacLeod</a>, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. See <a href="docs/assets/CREDITS.md">media credits</a>.</sub></p>
+
 OpenSupaStripe is a generic foundation for SaaS products that need authentication, organizations, team invites, subscriptions, dashboard routes, subdomain routing, and marketing pages without product-specific business logic.
 
 ## What's Included
